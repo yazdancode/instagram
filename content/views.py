@@ -20,7 +20,6 @@ class TagDetailAPI(APIView):
 
 class TagListAPI(APIView):
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (SessionAuthentication, JWTAuthentication)
 
     def get(self, request, *args, **kwargs):
         tags = Tag.objects.all()
