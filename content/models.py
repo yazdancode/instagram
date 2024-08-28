@@ -91,5 +91,3 @@ class TaggedUser(BaseModel):
 
     def __str__(self):
         return "{} - {}".format(self.user, self.post)
-
-

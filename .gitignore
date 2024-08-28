@@ -4,4 +4,3 @@ venv
 .run/
 *.pyc
 db.sqlite3
-.media/
