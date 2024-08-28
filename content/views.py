@@ -2,9 +2,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from content.models import Tag
-from content.serializers import TagListSerializer, TagDetailSerializer
-
+from content.models import Tag, Post
+from content.serializers import TagListSerializer, TagDetailSerializer, PostDetailSerializer
 
 class TagDetailAPI(APIView):
     @staticmethod
@@ -28,3 +27,11 @@ class TagListAPI(APIView):
             instance = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PostDetailAPI(APIView):
+    @staticmethod
+    def get(request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
+        serializer = PostDetailSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
