@@ -1,4 +1,4 @@
-from location.serializers import LocationSerializer, 
+from location.serializers import LocationSerializer
 from rest_framework import serializers
 from content.models import PostMedia, Tag, Post
 
