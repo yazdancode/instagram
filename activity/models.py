@@ -28,9 +28,10 @@ class Like(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
 
-    def __str__(self):
-        return "{} >> {}".format(self.user.username, self.post.id)
-
     class Meta:
         verbose_name = _("Like")
         verbose_name_plural = _("Likes")
+        unique_together = ("user", "post")
+
+    def __str__(self):
+        return f"{self.user.username} >> {self.post.id}"

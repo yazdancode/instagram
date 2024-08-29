@@ -5,17 +5,13 @@ from activity.serializers import CommentCreateSerializer, CommentListSerializer
 
 
 class CommentListCreateAPIView(ListCreateAPIView):
-	queryset = Comment.objects.all()
-	serializer_class = CommentCreateSerializer
-	permission_classes = (IsAuthenticated, )
-	
-	def perform_create(self, serializer):
-		serializer.save(user=self.request.user)
-		
-		
-	def get_serializer_class(self, *args, **kwargs):
-		if self.request.methode == "GET":
-			return CommentListSerializer
-		return self.serializer_class
-        
-	
+    queryset = Comment.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return CommentListSerializer
+        return CommentCreateSerializer
