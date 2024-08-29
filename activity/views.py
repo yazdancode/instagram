@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from activity.models import Comment
 from activity.serializers import CommentCreateSerializer, CommentListSerializer
 
+
 class CommentListCreateAPIView(ListCreateAPIView):
     queryset = Comment.objects.filter(reply_to__isnull=True)
     permission_classes = (IsAuthenticated,)
