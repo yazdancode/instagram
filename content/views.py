@@ -21,15 +21,10 @@ class TagListAPI(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagListSerializer
     permission_classes = (IsAuthenticated,)
-    
-    def post(self, request, *args, **kwargs):
-        serializer = TagListSerializer(data=request.data)
-        if serializer.is_valid():
-            instance = serializer.save()
-            return  Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class PostDetailAPI(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, pk, *args, **kwargs):
         post = get_object_or_404(Post, pk=pk)
         serializer = PostDetailSerializer(post)
