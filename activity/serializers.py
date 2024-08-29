@@ -1,7 +1,8 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from activity.models import Comment
 from content.serializers import PostDetailSerializer
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -13,6 +14,11 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ("caption", "post", "reply_to", "user")
         extra_kwargs = {"reply_to": {"required": False}}
+
+    def validate(self, attrs):
+        if len(attrs["caption"]) > 30:
+            raise ValidationError("Caption cannot be more than 30 characters")
+        return attrs
 
 
 class UserSerializer(serializers.ModelSerializer):
