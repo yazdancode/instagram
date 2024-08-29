@@ -12,7 +12,7 @@ class TagListSerializer(serializers.ModelSerializer):
         # key = validated_data.pop('key')
         instance = super().create(validated_data)
         return instance
-
+    
 
 class TagDetailSerializer(serializers.ModelSerializer):
     posts = serializers.SerializerMethodField()
@@ -38,4 +38,4 @@ class PostDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("caption", "user", "location", "media")
+        fields = ("id","caption", "user", "location", "media")
