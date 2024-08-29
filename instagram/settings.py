@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "location.apps.LocationConfig",
     "relation.apps.RelationConfig",
     "rest_framework",
-    'rest_framework_simplejwt',
+    "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -131,8 +131,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-    )if DEBUG else (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        () if DEBUG else ("rest_framework_simplejwt.authentication.JWTAuthentication",)
     )
-
 }

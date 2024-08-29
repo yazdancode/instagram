@@ -11,21 +11,24 @@ from content.serializers import (
     PostDetailSerializer,
 )
 
+
 class TagDetailAPI(APIView):
     def get(self, request, pk, *args, **kwargs):
         tag = get_object_or_404(Tag, pk=pk)
         serializer = TagDetailSerializer(tag)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 class TagListAPI(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagListSerializer
     permission_classes = (IsAuthenticated,)
-    
-    
+
+
 class TagCreateAPIView(CreateAPIView):
     queryset = Tag.objects.all()
-    serializer_class =  TagListSerializer
+    serializer_class = TagListSerializer
+
 
 class PostDetailAPI(APIView):
 
