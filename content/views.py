@@ -15,12 +15,9 @@ class TagDetailAPI(APIView):
 
 
 class TagListAPI(APIView):
-    @staticmethod
-    def get(request, *args, **kwargs):
-        tags = Tag.objects.all()
-        serializer = TagListSerializer(tags, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+    
+    
+    
     @staticmethod
     def post(request, *args, **kwargs):
         serializer = TagListSerializer(data=request.data)
