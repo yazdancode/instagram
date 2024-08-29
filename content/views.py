@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -17,10 +17,15 @@ class TagDetailAPI(APIView):
         serializer = TagDetailSerializer(tag)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class TagListAPI(ListCreateAPIView):
+class TagListAPI(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagListSerializer
     permission_classes = (IsAuthenticated,)
+    
+    
+class TagCreateAPIView(CreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class =  TagListSerializer
 
 class PostDetailAPI(APIView):
 
