@@ -6,6 +6,5 @@ from activity.serializers import CommentCreateSerializer
 
 
 class CommentCreateAPIView(CreateAPIView):
-	queryset = Comment.objects.all()
-	serializer_class = CommentCreateSerializer
-	
+    queryset = Comment.objects.all()
+    serializer_class = CommentCreateSerializer
