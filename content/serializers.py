@@ -1,3 +1,4 @@
+from activity.serializers import CommentListSerializer
 from location.serializers import LocationSerializer
 from rest_framework import serializers
 from content.models import PostMedia, Tag, Post
@@ -35,7 +36,14 @@ class PostDetailSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source="user.username")
     location = LocationSerializer()
     media = PostMediaSerializer(many=True)
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ("id", "caption", "user", "location", "media")
+        fields = ("id", "caption", "user", "location", "media", "comments")
+
+    def get_comments(self, obj):
+        serializer = CommentListSerializer(
+            obj.comments.filter(reply_to__isnull=True), many=True
+        )
+        return serializer.date

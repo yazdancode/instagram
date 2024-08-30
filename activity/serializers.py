@@ -28,6 +28,15 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         return attrs
+    
+
+class CommentRepliesListSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.username')
+
+    class Meta:
+        model = Comment
+        fields =("id", 'caption', 'user')
+
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,14 +46,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CommentListSerializer(serializers.ModelSerializer):
-    post = PostDetailSerializer()
     user = UserSerializer(read_only=True)
     replies_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ("id", "caption", "reply_to", "user", "post", "replies_count")
+        fields = ("id", "caption", "user", "replies_count")
 
     @staticmethod
     def get_replies_count(obj):
-        return obj.comment_set.count()
+        qs = obj.replies_count.all()
+        if qs.count() > 10:
+            qs = qs[:10]
+
+        serializer = CommentRepliesListSerializer(qs, many=True)
+        return serializer.data
+    
+
