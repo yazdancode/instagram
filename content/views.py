@@ -41,4 +41,3 @@ class PostDetailAPI(APIView):
         post = get_object_or_404(Post, pk=pk)
         serializer = PostDetailSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
-

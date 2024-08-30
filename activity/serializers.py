@@ -28,15 +28,14 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         return attrs
-    
+
 
 class CommentRepliesListSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.username')
+    user = serializers.CharField(source="user.username")
 
     class Meta:
         model = Comment
-        fields =("id", 'caption', 'user', "reply_to")
-
+        fields = ("id", "caption", "user", "reply_to")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -61,5 +60,3 @@ class CommentListSerializer(serializers.ModelSerializer):
 
         serializer = CommentRepliesListSerializer(qs, many=True)
         return serializer.data
-    
-
