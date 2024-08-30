@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+
+from activity.models import Comment
 from content.models import Tag, Post
 from content.serializers import (
     TagListSerializer,
@@ -39,3 +41,4 @@ class PostDetailAPI(APIView):
         post = get_object_or_404(Post, pk=pk)
         serializer = PostDetailSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
+

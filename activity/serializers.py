@@ -35,7 +35,7 @@ class CommentRepliesListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields =("id", 'caption', 'user')
+        fields =("id", 'caption', 'user', "reply_to")
 
 
 
