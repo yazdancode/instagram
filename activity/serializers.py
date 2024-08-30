@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from activity.models import Comment
 from content.serializers import PostDetailSerializer
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -15,10 +16,21 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         fields = ("caption", "post", "reply_to", "user")
         extra_kwargs = {"reply_to": {"required": False}}
 
+
+    def validate_caption(self, attr):
+        if len(attr["caption"]) > 30:
+            raise ValidationError(_("Caption cannot be more than 30 characters"))
+        return attr
+    
+    def validate_reply_to(self, attr):
+        if attr.reply_to is not None:
+            raise ValidationError(_("You can not reply to a reply recursively"))
+        return attr
+
+
     def validate(self, attrs):
-        if len(attrs["caption"]) > 30:
-            raise ValidationError("Caption cannot be more than 30 characters")
         return attrs
+    
 
 
 class UserSerializer(serializers.ModelSerializer):
