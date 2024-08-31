@@ -1,17 +1,17 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from activity.models import Comment
 from content.models import Tag, Post
 from content.serializers import (
     TagListSerializer,
     TagDetailSerializer,
     PostDetailSerializer,
 )
+from lib.pagination import SmallPageNumberPagination
 
 
 class TagDetailAPI(APIView):
@@ -26,6 +26,7 @@ class TagListAPI(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagListSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = SmallPageNumberPagination
 
 
 class TagCreateAPIView(CreateAPIView):
@@ -41,3 +42,13 @@ class PostDetailAPI(APIView):
         post = get_object_or_404(Post, pk=pk)
         serializer = PostDetailSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UserPostListAPIView(ListAPIView):
+    queryset = Post.objects.all()
+    lookup_url_kwarg = "user_id"
+    serializer_class = PostDetailSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user_id=self.kwargs[self.lookup_url_kwarg])
