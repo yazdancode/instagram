@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework import viewsets
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from content.models import Tag, Post
 from content.serializers import (
     TagListSerializer,
@@ -34,25 +34,14 @@ class TagCreateAPIView(CreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagListSerializer
 
-
-class PostDetailAPI(RetrieveAPIView):
+class UserPostReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.objects.all()
-    permission_classes = [IsAuthenticated, RelationExists]
-    serializer_class = PostDetailSerializer
-
-    # def get(self, request, pk, *args, **kwargs):
-    #     instance = get_object_or_404(Post, **{'pk':pk})
-    #     serializer = PostDetailSerializer(instance)
-    #     return Response(serializer.data)
-
-
-class UserPostListAPIView(ListAPIView):
-    queryset = Post.objects.all()
-    lookup_url_kwarg = "user_id"
+    lookup_url_kwarg = "pk"
     serializer_class = PostDetailSerializer
     pagination_class = StandardPageNumberPagination
-    permission_classes = [IsAuthenticated, RelationExists]
-
+    permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(user_id=self.kwargs[self.lookup_url_kwarg])
+        return qs.filter(user__username=self.kwargs['username'])
+    

@@ -3,19 +3,20 @@ from django.urls import path
 from content.views import (
     TagListAPI,
     TagDetailAPI,
-    PostDetailAPI,
     TagCreateAPIView,
-    UserPostListAPIView,
+    UserPostReadOnlyViewSet,
 )
 
+user_post_detail = UserPostReadOnlyViewSet.as_view({"get": "retrieve"})
+user_post_list = UserPostReadOnlyViewSet.as_view({"get": "list"})
 urlpatterns = [
     path("tag/", TagListAPI.as_view(), name="tags-list"),
     path("tags/create/", TagCreateAPIView.as_view(), name="tags-create"),
     path("tag/<int:pk>", TagDetailAPI.as_view(), name="tags-detail"),
-    path("post/<int:pk>", PostDetailAPI.as_view(), name="posts-detail"),
+    path("user/<str:username>/posts/", user_post_list, name="user_posts-list"),
     path(
-        "user/posts/<int:user_id>/",
-        UserPostListAPIView.as_view(),
-        name="user_posts-list",
+        "user/<str:username>/posts/<int:pk>/",
+        user_post_detail,
+        name="user_posts-detail",
     ),
 ]

@@ -12,7 +12,7 @@ class SmallPageNumberPagination(PageNumberPagination):
 
 
 # A pagination class using cursor pagination for better performance with large datasets
-class StandardPageNumberPagination(CursorPagination):
+class StandardPageNumberPagination(PageNumberPagination):
     # Items will be ordered by 'created_time' in descending order
     ordering = "-created_time"
 
