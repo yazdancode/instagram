@@ -40,6 +40,11 @@ class PostDetailAPI(RetrieveAPIView):
     permission_classes = [IsAuthenticated, RelationExists]
     serializer_class = PostDetailSerializer
 
+    # def get(self, request, pk, *args, **kwargs):
+    #     instance = get_object_or_404(Post, **{'pk':pk})
+    #     serializer = PostDetailSerializer(instance)
+    #     return Response(serializer.data)
+
 
 class UserPostListAPIView(ListAPIView):
     queryset = Post.objects.all()

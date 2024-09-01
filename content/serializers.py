@@ -36,12 +36,14 @@ class PostDetailSerializer(serializers.ModelSerializer):
         model = Post
         fields = ("id", "caption", "user", "location", "media", "comments")
 
-    def get_location(self, obj):
+    @staticmethod
+    def get_location(obj):
         from location.serializers import LocationSerializer
 
         return LocationSerializer(obj.location).data
 
-    def get_comments(self, obj):
+    @staticmethod
+    def get_comments(obj):
         from activity.serializers import CommentListSerializer
 
         serializer = CommentListSerializer(
