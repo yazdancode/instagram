@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from activity.models import Comment
+from activity.models import Comment, Like
 from content.serializers import PostDetailSerializer
 from django.utils.translation import gettext_lazy as _
 
@@ -37,6 +37,11 @@ class CommentRepliesListSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ("id", "caption", "user", "reply_to")
 
+class PostLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Like
+        fields =('post',)
+        
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -133,6 +133,6 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         () if DEBUG else ("rest_framework_simplejwt.authentication.JWTAuthentication",)
     ),
-    "DEFAULT_PAGINATION_CLASS": 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 15
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 15,
 }

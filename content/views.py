@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -35,21 +35,18 @@ class TagCreateAPIView(CreateAPIView):
     serializer_class = TagListSerializer
 
 
-class PostDetailAPI(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    @staticmethod
-    def get(request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = PostDetailSerializer(post)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class PostDetailAPI(RetrieveAPIView):
+    queryset = Post.objects.all()
+    permission_classes = [IsAuthenticated, RelationExists]
+    serializer_class = PostDetailSerializer
+    
 
 
 class UserPostListAPIView(ListAPIView):
     queryset = Post.objects.all()
     lookup_url_kwarg = "user_id"
     serializer_class = PostDetailSerializer
-    pagination_class =StandardPageNumberPagination
+    pagination_class = StandardPageNumberPagination
     permission_classes = [IsAuthenticated, RelationExists]
 
     def get_queryset(self):
