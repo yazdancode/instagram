@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from activity.models import Comment, Like
-from content.serializers import PostDetailSerializer
-from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -16,12 +15,14 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         fields = ("caption", "post", "reply_to", "user")
         extra_kwargs = {"reply_to": {"required": False}}
 
-    def validate_caption(self, attr):
+    @staticmethod
+    def validate_caption(attr):
         if len(attr) > 30:
             raise ValidationError(_("Caption cannot be more than 30 characters"))
         return attr
 
-    def validate_reply_to(self, attr):
+    @staticmethod
+    def validate_reply_to(attr):
         if attr.reply_to is not None:
             raise ValidationError(_("You can not reply to a reply recursively"))
         return attr
@@ -37,11 +38,12 @@ class CommentRepliesListSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ("id", "caption", "user", "reply_to")
 
+
 class PostLikeSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Like
-        fields =('post',)
-        
+        model = Like
+        fields = ("post",)
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

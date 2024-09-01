@@ -39,7 +39,6 @@ class PostDetailAPI(RetrieveAPIView):
     queryset = Post.objects.all()
     permission_classes = [IsAuthenticated, RelationExists]
     serializer_class = PostDetailSerializer
-    
 
 
 class UserPostListAPIView(ListAPIView):
