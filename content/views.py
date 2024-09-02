@@ -1,18 +1,13 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from content.models import Tag, Post
-from content.serializers import (
-    TagListSerializer,
-    TagDetailSerializer,
-    PostDetailSerializer,
-)
+from content.serializers import TagListSerializer,TagDetailSerializer,PostDetailSerializer
 from lib.pagination import SmallPageNumberPagination, StandardPageNumberPagination
-from lib.permissions import RelationExists
 
 
 class TagDetailAPI(APIView):
