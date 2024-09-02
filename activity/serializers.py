@@ -43,6 +43,13 @@ class PostLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ("post",)
+        
+
+class LikeSerializer(serializers.ModelSerializer):
+    user =serializers.CharField(source='user.username')
+    class Meta:
+        model = Like
+        fields = ("user",)
 
 
 class UserSerializer(serializers.ModelSerializer):
